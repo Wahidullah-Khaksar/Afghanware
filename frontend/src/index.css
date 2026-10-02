@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+/* Motion tokens: یو ځای تعریف، په ټولو پاڼو کې کارول کیږي */
+:root {
+  --duration-fast: 200ms;
+  --duration-base: 400ms;
+  --duration-slow: 600ms;
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --distance-rise: 16px;
+}
+
+/* Entrance animation */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(var(--distance-rise));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up var(--duration-base) var(--ease-smooth) both;
+}
+
+/* Scroll reveal: ابتدا پټ، کله چې ښکاره شي ښکاره کیږي */
+.reveal {
+  opacity: 0;
+  transform: translateY(var(--distance-rise));
+  transition:
+    opacity var(--duration-slow) var(--ease-smooth),
+    transform var(--duration-slow) var(--ease-smooth);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Skeleton loader */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 0.5rem;
+}
+
+/* Accessibility: که کاروونکی motion نه غواړي */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
